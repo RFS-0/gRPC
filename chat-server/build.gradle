@@ -1,0 +1,63 @@
+apply plugin: 'com.google.protobuf'
+apply plugin: 'idea'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "io.grpc:grpc-netty:${rootProject.versions.grpc}"
+    compile "io.grpc:grpc-protobuf:${rootProject.versions.grpc}"
+    compile "io.grpc:grpc-stub:${rootProject.versions.grpc}"
+    compile "com.google.protobuf:protobuf-java:${rootProject.versions.protobuf_java}"
+    // Workaround for @javax.annotation.Generated
+    // see: https://github.com/grpc/grpc-java/issues/3633
+    compile("javax.annotation:javax.annotation-api:1.3.1")
+    protobuf files("../protobuffers/")
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.google.protobuf:protobuf-gradle-plugin:${rootProject.versions.protobuf_gradle_plugin}"
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:${rootProject.versions.protoc}"
+    }
+    plugins {
+        grpc {
+            artifact = "io.grpc:protoc-gen-grpc-java:${rootProject.versions.grpc}"
+        }
+    }
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+        }
+    }
+}
+
+sourceSets {
+    proto {
+        '../protobuffers/'
+    }
+    main {
+        java {
+            srcDirs 'build/generated/source/proto/main/proto'
+            srcDirs 'build/generated/source/proto/main/java'
+        }
+    }
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "ch.resrc.message.ChatServer"
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
