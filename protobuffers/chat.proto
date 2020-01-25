@@ -1,0 +1,52 @@
+syntax = "proto3";
+package chat;
+
+// options
+option java_package = "ch.resrc.chat"; // package used for generated java classes; default is proto package (i.e. chat in this example)
+option java_multiple_files = true; // Causes top-level messages, enums, and services to be defined at the package level, rather than inside an outer class named after the .proto file
+option optimize_for = SPEED; // The protocol buffer compiler will generate code for serializing, parsing, and performing other common operations on your message types.
+
+message EmptyRequest {
+}
+
+message EmptyResponse {
+}
+
+message UserRequest {
+    string name = 1;
+    string alias = 2;
+}
+
+message UserResponse {
+    string id = 1;
+    string name = 2;
+    string alias = 3;
+}
+
+message UserResponseList {
+    repeated UserResponse users = 1;
+}
+
+message MessageRequest {
+    UserResponse from = 1;
+    string message = 2;
+}
+
+message MessageResponse {
+    string id = 1;
+    UserRequest from = 2;
+    string message = 3;
+}
+
+message MessageResponseList {
+    repeated MessageResponse messages = 1;
+}
+
+service ChatService {
+    rpc createUser (UserRequest) returns (UserResponse);
+    rpc getAllUsers (EmptyRequest) returns (UserResponseList);
+    rpc users (EmptyRequest) returns (stream UserResponse);
+    rpc createMessage (MessageRequest) returns (MessageResponse);
+    rpc getAllMessages (EmptyRequest) returns (MessageResponseList);
+    rpc messages (stream MessageRequest) returns (stream MessageRequest) {}
+}
