@@ -1,0 +1,11 @@
+.mat-button {
+    border: none;
+}
+
+.flex-spacer {
+    flex-grow: 1;
+}
+
+.avatar {
+    padding-right: 25px;
+}
