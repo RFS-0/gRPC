@@ -1,0 +1,21 @@
+mat-chip.mat-chip.mat-standard-chip.mat-chip-selected {
+  margin: 25px;
+  padding: 25px;
+}
+
+.chat-container .left {
+  align-self: flex-start;
+}
+
+.chat-container .center {
+  align-self: center;
+}
+
+.chat-container .right {
+  align-self: flex-end;
+}
+
+.from {
+  font-size: small;
+  font-style: italic;
+}

@@ -1,0 +1,47 @@
+<mat-chip-list class="chat-container">
+  <ng-container *ngFor="let chatBubble of chatBubbles"
+                [ngSwitch]="chatBubble.type">
+    <ng-container *ngSwitchCase="ChatBubbleType.USER_JOINED">
+      <mat-chip class="center padding-2"
+                color="warn"
+                selected>
+        {{ chatBubble.message }}
+      </mat-chip>
+    </ng-container>
+    <ng-container *ngSwitchCase="ChatBubbleType.MESSAGE_SENT">
+      <mat-chip class="left padding-2"
+                color="primary"
+                selected>
+        {{ chatBubble.message }}
+      </mat-chip>
+    </ng-container>
+    <ng-container *ngSwitchCase="ChatBubbleType.MESSAGE_RECEIVED">
+      <mat-chip class="right padding-2"
+                color="accent"
+                selected>
+        <div>
+          <div class="from">{{ chatBubble.from}}:</div>
+          <div>{{ chatBubble.message }}</div>
+        </div>
+      </mat-chip>
+    </ng-container>
+  </ng-container>
+</mat-chip-list>
+<div class="container">
+  <form [formGroup]="messageForm" (ngSubmit)="sendMessage()" class="form">
+    <mat-form-field class="form-element padding-top-1">
+      <input matInput placeholder="Message" formControlName="message">
+      <mat-error *ngIf="!messageForm.controls['message'].valid && messageForm.controls['message'].touched">
+        {{ 'Message can not be empty' }}
+      </mat-error>
+    </mat-form-field>
+    <div>
+      <button mat-raised-button
+              [disabled]="message.length <= 0"
+              type="submit"
+              color="primary">
+        Send
+      </button>
+    </div>
+  </form>
+</div>
