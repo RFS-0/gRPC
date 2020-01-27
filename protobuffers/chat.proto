@@ -9,9 +9,6 @@ option optimize_for = SPEED; // The protocol buffer compiler will generate code 
 message EmptyRequest {
 }
 
-message EmptyResponse {
-}
-
 message UserRequest {
     string name = 1;
     string alias = 2;
@@ -34,7 +31,7 @@ message MessageRequest {
 
 message MessageResponse {
     string id = 1;
-    UserRequest from = 2;
+    UserResponse from = 2;
     string message = 3;
 }
 
@@ -48,5 +45,6 @@ service ChatService {
     rpc users (EmptyRequest) returns (stream UserResponse);
     rpc createMessage (MessageRequest) returns (MessageResponse);
     rpc getAllMessages (EmptyRequest) returns (MessageResponseList);
-    rpc messages (stream MessageRequest) returns (stream MessageRequest) {}
+    rpc messages (EmptyRequest) returns (stream MessageResponse) {
+    }
 }
