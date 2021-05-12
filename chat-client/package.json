@@ -35,7 +35,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@grpc/proto-loader": "^0.5.3",
     "google-protobuf": "^3.11.2",
-    "grpc": "^1.24.2",
+    "grpc": "^1.24.9",
     "grpc-web": "^1.0.7",
     "codelyzer": "^5.0.0",
     "jasmine-core": "~3.4.0",
